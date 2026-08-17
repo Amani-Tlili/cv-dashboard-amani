@@ -5,7 +5,7 @@ import os
 from PIL import Image
 
 # 1. Configuration de la page
-st.set_page_config(page_title="Amani Tlili - Resume Dashboard", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Amani Tlili - Tableau de bord CV", layout="wide", initial_sidebar_state="collapsed")
 
 # 2. Injection de CSS (Avec les Animations)
 st.markdown("""
@@ -84,7 +84,7 @@ st.markdown("""
         transition: background-color 0.3s ease;
     }
     .cv-entry:hover {
-        background-color: #F8F8FD; /* Léger surlignage au passage de la souris */
+        background-color: #F8F8FD;
     }
     .cv-year {
         min-width: 90px;
@@ -186,7 +186,7 @@ with col_left:
     
     st.markdown("<div style='text-align: center; font-size: 14.5px;'>", unsafe_allow_html=True)
     st.markdown("**Téléphone**<br>📞 (438) 855-1310", unsafe_allow_html=True)
-    st.markdown("<br>**Email**<br>✉️ ameni1tlili@gmail.com", unsafe_allow_html=True)
+    st.markdown("<br>**Courriel**<br>✉️ ameni1tlili@gmail.com", unsafe_allow_html=True)
     st.markdown("<br>**LinkedIn**<br>🔗 <a href='https://www.linkedin.com/in/amanitlili/' target='_blank' class='custom-link' style='color: #9a88cf;'>/in/amanitlili</a>", unsafe_allow_html=True)
     st.markdown("<br>**Portfolio**<br>🌐 <a href='https://amani-tlili.github.io/amanitlili-portfolio/index.html' target='_blank' class='custom-link' style='color: #FF7F50;'>Voir mon Portfolio</a>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
@@ -202,10 +202,10 @@ with col_left:
 # COLONNE DU MILIEU : PARCOURS & LANGUES
 # ==========================================
 with col_mid:
-    st.markdown("### About Me")
+    st.markdown("### À propos")
     st.markdown("""
     <p style='text-align: justify; font-size: 14.5px; line-height: 1.6;'>
-    Étudiante au certificat en exploitation des données à HEC Montréal et titulaire de deux maîtrises en informatique[cite: 1]. Je possède une solide base en développement logiciel, en méthodologies Agiles et en analyse de données (SQL, Python, ETL)[cite: 1]. Possédant une expérience concrète dans la collecte de besoins d'affaires, la modélisation de bases de données et la documentation technique, je souhaite mettre mes compétences au service d'initiatives technologiques visant à optimiser les processus[cite: 1].
+    Étudiante au certificat en exploitation des données à HEC Montréal et titulaire de deux maîtrises en informatique. Je possède une solide base en développement logiciel, en méthodologies Agiles et en analyse de données (SQL, Python, ETL). Possédant une expérience concrète dans la collecte de besoins d'affaires, la modélisation de bases de données et la documentation technique, je souhaite mettre mes compétences au service d'initiatives technologiques visant à optimiser les processus.
     </p>
     """, unsafe_allow_html=True)
     
@@ -214,7 +214,7 @@ with col_mid:
     col_work, col_edu = st.columns(2)
     
     with col_work:
-        st.markdown("### Work Experience")
+        st.markdown("### Expériences Professionnelles")
         work_html = """
         <div class='cv-entry'><div class='cv-year'>2024 - 2025</div><div class='cv-details'><span class='cv-role'>Agente de voyages</span><br><span class='cv-company'>Classy Travel - Montréal, QC</span></div></div>
         <div class='cv-entry'><div class='cv-year'>2016 - 2019</div><div class='cv-details'><span class='cv-role'>Enseignante</span><br><span class='cv-company'>ISET - Tunisie</span></div></div>
@@ -223,9 +223,9 @@ with col_mid:
         st.markdown(work_html, unsafe_allow_html=True)
         
     with col_edu:
-        st.markdown("### Education")
+        st.markdown("### Formations")
         edu_html = """
-        <div class='cv-entry'><div class='cv-year'>2026 - Prsnt</div><div class='cv-details'><span class='cv-role'>Certificat en données</span><br><span class='cv-company'>HEC Montréal</span></div></div>
+        <div class='cv-entry'><div class='cv-year'>2026 - En cours</div><div class='cv-details'><span class='cv-role'>Certificat en données</span><br><span class='cv-company'>HEC Montréal</span></div></div>
         <div class='cv-entry'><div class='cv-year'>2017 - 2020</div><div class='cv-details'><span class='cv-role'>Maîtrise Multimédia</span><br><span class='cv-company'>Institut Sup. d'Informatique</span></div></div>
         <div class='cv-entry'><div class='cv-year'>2013 - 2015</div><div class='cv-details'><span class='cv-role'>Maîtrise Génie Logiciel</span><br><span class='cv-company'>ISET</span></div></div>
         <div class='cv-entry'><div class='cv-year'>2010 - 2013</div><div class='cv-details'><span class='cv-role'>Baccalauréat Informatique</span><br><span class='cv-company'>ISET</span></div></div>
@@ -234,11 +234,11 @@ with col_mid:
 
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    st.markdown("### Languages")
+    st.markdown("### Langues")
     col_lang1, col_lang2 = st.columns(2)
     
     with col_lang1:
-        st.markdown(draw_skill("🇹🇳 Arabe (Bilingue)", 100), unsafe_allow_html=True)
+        st.markdown(draw_skill("🇹🇳 Arabe (Maternelle )", 100), unsafe_allow_html=True)
         st.markdown(draw_skill("🇬🇧 Anglais (Intermédiaire)", 60), unsafe_allow_html=True)
     with col_lang2:
         st.markdown(draw_skill("🇫🇷 Français (Courant)", 95), unsafe_allow_html=True)
@@ -247,7 +247,7 @@ with col_mid:
 # COLONNE DE DROITE : COMPÉTENCES & GRAPHIQUES
 # ==========================================
 with col_right:
-    st.markdown("### Skills")
+    st.markdown("### Compétences")
     
     skills_html = draw_skill("Power BI & GA4", 95)
     skills_html += draw_skill("SQL & Modélisation", 90)
@@ -269,10 +269,10 @@ with col_right:
         st.markdown("<div style='font-size:12px; line-height:1.2;'>Diplômes<br>Universitaires</div>", unsafe_allow_html=True)
         
     with col_chart:
-        fig1 = go.Figure(data=[go.Pie(labels=['Dev', 'Data'], values=[60, 40], hole=.75, marker_colors=['#9a88cf', '#e0e0e0'], textinfo='none', hoverinfo='label')])
-        fig1.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0), height=80, paper_bgcolor="rgba(0,0,0,0)", annotations=[dict(text='IT', x=0.5, y=0.5, font_size=14, showarrow=False)])
+        fig1 = go.Figure(data=[go.Pie(labels=['Développement', 'Données'], values=[60, 40], hole=.75, marker_colors=['#9a88cf', '#e0e0e0'], textinfo='none', hoverinfo='label')])
+        fig1.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0), height=80, paper_bgcolor="rgba(0,0,0,0)", annotations=[dict(text='TI', x=0.5, y=0.5, font_size=14, showarrow=False)])
         st.plotly_chart(fig1, use_container_width=True, config={'displayModeBar': False})
         
-        fig2 = go.Figure(data=[go.Pie(labels=['Data', 'Autre'], values=[85, 15], hole=.75, marker_colors=['#FF7F50', '#e0e0e0'], textinfo='none', hoverinfo='label')])
+        fig2 = go.Figure(data=[go.Pie(labels=['Données', 'Autre'], values=[85, 15], hole=.75, marker_colors=['#FF7F50', '#e0e0e0'], textinfo='none', hoverinfo='label')])
         fig2.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0), height=80, paper_bgcolor="rgba(0,0,0,0)", annotations=[dict(text='Data', x=0.5, y=0.5, font_size=14, showarrow=False)])
         st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
