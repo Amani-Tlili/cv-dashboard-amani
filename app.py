@@ -111,6 +111,16 @@ st.markdown("""
         border: 6px solid #FBE8F1;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+    
+    /* Liens personnalisés */
+    .custom-link {
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    .custom-link:hover {
+        opacity: 0.7;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -134,13 +144,26 @@ with col_left:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # Coordonnées
-    st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-    st.markdown("**Contact Number**<br>📞 (438) 855-1310", unsafe_allow_html=True)
+    # Coordonnées et Liens Cliquables
+    st.markdown("<div style='text-align: center; font-size: 14.5px;'>", unsafe_allow_html=True)
+    st.markdown("**Téléphone**<br>📞 (438) 855-1310", unsafe_allow_html=True)
     st.markdown("<br>**Email**<br>✉️ ameni1tlili@gmail.com", unsafe_allow_html=True)
-    st.markdown("<br>**LinkedIn**<br>🔗 /in/amanitlili", unsafe_allow_html=True)
+    st.markdown("<br>**LinkedIn**<br>🔗 <a href='https://www.linkedin.com/in/amanitlili/' target='_blank' class='custom-link' style='color: #9a88cf;'>/in/amanitlili</a>", unsafe_allow_html=True)
+    st.markdown("<br>**Portfolio**<br>🌐 <a href='https://amani-tlili.github.io/amanitlili-portfolio/index.html' target='_blank' class='custom-link' style='color: #FF7F50;'>Voir mon Portfolio</a>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
     
+    st.markdown("<hr>", unsafe_allow_html=True)
+
+    # Section Langues
+    st.markdown("<div style='text-align: center; font-weight: bold; margin-bottom: 10px;'>Langues</div>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align: center; font-size: 14px; line-height: 1.6;'>
+        🇫🇷 <b>Français</b> (Courant)<br>
+        🇹🇳 <b>Arabe</b> (Bilingue)<br>
+        🇬🇧 <b>Anglais</b> (Intermédiaire)
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown("<hr>", unsafe_allow_html=True)
     
     # Bouton CV
