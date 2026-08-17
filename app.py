@@ -8,7 +8,7 @@ from PIL import Image
 # 1. Configuration de la page
 st.set_page_config(page_title="Amani Tlili - Resume Dashboard", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. Injection de CSS pour reproduire l'image
+# 2. Injection de CSS 
 st.markdown("""
 <style>
     /* Fond de l'application (Lavande clair) */
@@ -16,7 +16,7 @@ st.markdown("""
         background-color: #E8E7FB;
     }
     
-    /* Conteneur principal (Effet de carte blanche centrée) */
+    /* Conteneur principal */
     .block-container {
         background-color: #FFFFFF;
         border-radius: 20px;
@@ -32,7 +32,7 @@ st.markdown("""
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Bouton Pilule pour le nom (Corail ou Violet) */
+    /* Bouton Pilule pour le nom */
     .name-pill {
         background: linear-gradient(90deg, #9a88cf 0%, #FF7F50 100%);
         color: white;
@@ -59,7 +59,7 @@ st.markdown("""
         margin: 20px 0;
     }
 
-    /* Formatage des listes (Expérience / Éducation) */
+    /* Formatage des listes */
     .cv-entry {
         display: flex;
         margin-bottom: 15px;
@@ -124,27 +124,35 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. Structure en 3 colonnes selon l'image : Gauche (Profil), Milieu (Détails), Droite (Compétences)
+# Définition de la fonction pour dessiner les barres de progression
+def draw_skill(skill_name, percentage):
+    return f"""
+    <div class='skill-container'>
+        <div class='skill-label'>{skill_name}</div>
+        <div class='progress-bg'>
+            <div class='progress-bar' style='width: {percentage}%;'></div>
+        </div>
+    </div>
+    """
+
+# 3. Structure en 3 colonnes 
 col_left, col_mid, col_right = st.columns([1, 2, 1], gap="large")
 
 # ==========================================
 # COLONNE DE GAUCHE : PROFIL
 # ==========================================
 with col_left:
-    # Photo de profil
     if os.path.exists("photo_profil.jpg"):
         img = Image.open("photo_profil.jpg")
         st.image(img, use_container_width=True)
     else:
         st.markdown("<div style='height: 200px; width: 200px; background-color:#e0e0e0; border-radius:50%; margin:auto; line-height:200px; text-align:center;'>Photo</div>", unsafe_allow_html=True)
     
-    # Nom et Titre
     st.markdown("<div class='name-pill'>AMANI TLILI</div>", unsafe_allow_html=True)
     st.markdown("<div class='job-title'>Analyste de Données & Affaires</div>", unsafe_allow_html=True)
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # Coordonnées et Liens Cliquables
     st.markdown("<div style='text-align: center; font-size: 14.5px;'>", unsafe_allow_html=True)
     st.markdown("**Téléphone**<br>📞 (438) 855-1310", unsafe_allow_html=True)
     st.markdown("<br>**Email**<br>✉️ ameni1tlili@gmail.com", unsafe_allow_html=True)
@@ -153,33 +161,20 @@ with col_left:
     st.markdown("</div>", unsafe_allow_html=True)
     
     st.markdown("<hr>", unsafe_allow_html=True)
-
-    # Section Langues
-    st.markdown("<div style='text-align: center; font-weight: bold; margin-bottom: 10px;'>Langues</div>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style='text-align: center; font-size: 14px; line-height: 1.6;'>
-        🇫🇷 <b>Français</b> (Courant)<br>
-        🇹🇳 <b>Arabe</b> (Bilingue)<br>
-        🇬🇧 <b>Anglais</b> (Intermédiaire)
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown("<hr>", unsafe_allow_html=True)
     
-    # Bouton CV
     cv_file_path = "Amani_Tlili_CV_Spontanee_Final.pdf"
     if os.path.exists(cv_file_path):
         with open(cv_file_path, "rb") as pdf_file:
             st.download_button("📥 Télécharger CV (PDF)", data=pdf_file, file_name="Amani_Tlili_CV.pdf", mime="application/pdf", use_container_width=True)
 
 # ==========================================
-# COLONNE DU MILIEU : PARCOURS (About / Work / Edu)
+# COLONNE DU MILIEU : PARCOURS & LANGUES
 # ==========================================
 with col_mid:
     st.markdown("### About Me")
     st.markdown("""
     <p style='text-align: justify; font-size: 14.5px;'>
-    Étudiante au certificat en exploitation des données à HEC Montréal et titulaire de deux maîtrises en informatique. Je possède une solide base en développement logiciel, en méthodologies Agiles et en analyse de données (SQL, Python, ETL). Possédant une expérience concrète dans la collecte de besoins d'affaires, la modélisation de bases de données et la documentation technique, je souhaite mettre mes compétences au service d'initiatives technologiques visant à optimiser les processus.
+    Étudiante au certificat en exploitation des données à HEC Montréal et titulaire de deux maîtrises en informatique[cite: 1]. Je possède une solide base en développement logiciel, en méthodologies Agiles et en analyse de données (SQL, Python, ETL)[cite: 1]. Possédant une expérience concrète dans la collecte de besoins d'affaires, la modélisation de bases de données et la documentation technique, je souhaite mettre mes compétences au service d'initiatives technologiques visant à optimiser les processus[cite: 1].
     </p>
     """, unsafe_allow_html=True)
     
@@ -206,22 +201,23 @@ with col_mid:
         """
         st.markdown(edu_html, unsafe_allow_html=True)
 
+    st.markdown("<hr>", unsafe_allow_html=True)
+    
+    # Nouvelle section Langues sous forme de barres
+    st.markdown("### Languages")
+    col_lang1, col_lang2 = st.columns(2)
+    
+    with col_lang1:
+        st.markdown(draw_skill("🇹🇳 Arabe (Bilingue)", 100), unsafe_allow_html=True)
+        st.markdown(draw_skill("🇬🇧 Anglais (Intermédiaire)", 60), unsafe_allow_html=True)
+    with col_lang2:
+        st.markdown(draw_skill("🇫🇷 Français (Courant)", 95), unsafe_allow_html=True)
+
 # ==========================================
 # COLONNE DE DROITE : COMPÉTENCES & GRAPHIQUES
 # ==========================================
 with col_right:
     st.markdown("### Skills")
-    
-    # Générateur de barres de progression HTML
-    def draw_skill(skill_name, percentage):
-        return f"""
-        <div class='skill-container'>
-            <div class='skill-label'>{skill_name}</div>
-            <div class='progress-bg'>
-                <div class='progress-bar' style='width: {percentage}%;'></div>
-            </div>
-        </div>
-        """
     
     skills_html = draw_skill("Power BI & GA4", 95)
     skills_html += draw_skill("SQL & Modélisation", 90)
@@ -233,7 +229,6 @@ with col_right:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # Section Graphiques (Donut Charts) style image
     col_kpi, col_chart = st.columns([1, 1])
     
     with col_kpi:
@@ -244,12 +239,11 @@ with col_right:
         st.markdown("<div style='font-size:12px; line-height:1.2;'>Diplômes<br>Universitaires</div>", unsafe_allow_html=True)
         
     with col_chart:
-        # Donut Chart 1
-        fig1 = go.Figure(data=[go.Pie(labels=['Dev', 'Data'], values=[60, 40], hole=.75, marker_colors=['#9a88cf', '#e0e0e0'])])
+        # Ajout de textinfo='none' pour cacher les pourcentages noirs qui débordaient
+        fig1 = go.Figure(data=[go.Pie(labels=['Dev', 'Data'], values=[60, 40], hole=.75, marker_colors=['#9a88cf', '#e0e0e0'], textinfo='none', hoverinfo='label')])
         fig1.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0), height=80, paper_bgcolor="rgba(0,0,0,0)", annotations=[dict(text='IT', x=0.5, y=0.5, font_size=14, showarrow=False)])
         st.plotly_chart(fig1, use_container_width=True, config={'displayModeBar': False})
         
-        # Donut Chart 2
-        fig2 = go.Figure(data=[go.Pie(labels=['Data', 'Autre'], values=[85, 15], hole=.75, marker_colors=['#FF7F50', '#e0e0e0'])])
+        fig2 = go.Figure(data=[go.Pie(labels=['Data', 'Autre'], values=[85, 15], hole=.75, marker_colors=['#FF7F50', '#e0e0e0'], textinfo='none', hoverinfo='label')])
         fig2.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0), height=80, paper_bgcolor="rgba(0,0,0,0)", annotations=[dict(text='Data', x=0.5, y=0.5, font_size=14, showarrow=False)])
         st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
