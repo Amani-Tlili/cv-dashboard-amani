@@ -2,21 +2,31 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 import os
-import base64
 from PIL import Image
 
 # 1. Configuration de la page
 st.set_page_config(page_title="Amani Tlili - Resume Dashboard", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. Injection de CSS 
+# 2. Injection de CSS (Avec les Animations)
 st.markdown("""
 <style>
-    /* Fond de l'application (Lavande clair) */
+    /* ANIMATIONS CSS */
+    @keyframes fadeInSlideUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fillProgressBar {
+        0% { transform: scaleX(0); }
+        100% { transform: scaleX(1); }
+    }
+
+    /* Fond de l'application */
     .stApp {
         background-color: #E8E7FB;
     }
     
-    /* Conteneur principal */
+    /* Conteneur principal avec animation d'entrée */
     .block-container {
         background-color: #FFFFFF;
         border-radius: 20px;
@@ -24,6 +34,7 @@ st.markdown("""
         margin-top: 3rem;
         box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         max-width: 1300px;
+        animation: fadeInSlideUp 1s ease-out forwards;
     }
 
     /* Typographie */
@@ -32,7 +43,7 @@ st.markdown("""
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Bouton Pilule pour le nom */
+    /* Bouton Pilule pour le nom (Avec effet de survol) */
     .name-pill {
         background: linear-gradient(90deg, #9a88cf 0%, #FF7F50 100%);
         color: white;
@@ -43,6 +54,11 @@ st.markdown("""
         font-weight: bold;
         margin-top: 15px;
         margin-bottom: 5px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .name-pill:hover {
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(255, 127, 80, 0.4);
     }
     
     /* Titre du poste */
@@ -59,10 +75,16 @@ st.markdown("""
         margin: 20px 0;
     }
 
-    /* Formatage des listes */
+    /* Formatage des listes (Hover effect sur les expériences) */
     .cv-entry {
         display: flex;
         margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+    .cv-entry:hover {
+        background-color: #F8F8FD; /* Léger surlignage au passage de la souris */
     }
     .cv-year {
         min-width: 90px;
@@ -83,7 +105,7 @@ st.markdown("""
         font-size: 13px;
     }
 
-    /* Barres de progression HTML personnalisées */
+    /* Barres de progression HTML (Animées) */
     .skill-container {
         margin-bottom: 15px;
     }
@@ -93,33 +115,42 @@ st.markdown("""
         margin-bottom: 5px;
     }
     .progress-bg {
-        background-color: #FBE8F1; /* Rose poudré */
+        background-color: #FBE8F1;
         border-radius: 10px;
         height: 12px;
         width: 100%;
         position: relative;
+        overflow: hidden;
     }
     .progress-bar {
-        background: linear-gradient(90deg, #9a88cf 0%, #FF7F50 100%); /* Violet vers Corail */
+        background: linear-gradient(90deg, #9a88cf 0%, #FF7F50 100%);
         height: 100%;
         border-radius: 10px;
+        transform-origin: left;
+        animation: fillProgressBar 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     }
     
-    /* Arrondir la photo de profil */
+    /* Photo de profil interactive */
     [data-testid="stImage"] img {
         border-radius: 50%;
         border: 6px solid #FBE8F1;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+    [data-testid="stImage"] img:hover {
+        transform: scale(1.08) rotate(2deg);
+        border-color: #9a88cf;
     }
     
     /* Liens personnalisés */
     .custom-link {
         text-decoration: none;
         font-weight: bold;
-        transition: 0.3s;
+        transition: opacity 0.3s ease, color 0.3s ease;
     }
     .custom-link:hover {
         opacity: 0.7;
+        text-decoration: underline;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -173,7 +204,7 @@ with col_left:
 with col_mid:
     st.markdown("### About Me")
     st.markdown("""
-    <p style='text-align: justify; font-size: 14.5px;'>
+    <p style='text-align: justify; font-size: 14.5px; line-height: 1.6;'>
     Étudiante au certificat en exploitation des données à HEC Montréal et titulaire de deux maîtrises en informatique[cite: 1]. Je possède une solide base en développement logiciel, en méthodologies Agiles et en analyse de données (SQL, Python, ETL)[cite: 1]. Possédant une expérience concrète dans la collecte de besoins d'affaires, la modélisation de bases de données et la documentation technique, je souhaite mettre mes compétences au service d'initiatives technologiques visant à optimiser les processus[cite: 1].
     </p>
     """, unsafe_allow_html=True)
@@ -203,7 +234,6 @@ with col_mid:
 
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # Nouvelle section Langues sous forme de barres
     st.markdown("### Languages")
     col_lang1, col_lang2 = st.columns(2)
     
@@ -232,14 +262,13 @@ with col_right:
     col_kpi, col_chart = st.columns([1, 1])
     
     with col_kpi:
-        st.markdown("<div style='color:#9a88cf; font-size:35px; font-weight:bold; margin-top:20px;'>5</div>", unsafe_allow_html=True)
+        st.markdown("<div style='color:#9a88cf; font-size:35px; font-weight:bold; margin-top:20px; transition: transform 0.3s ease;' onmouseover='this.style.transform=\"scale(1.1)\"' onmouseout='this.style.transform=\"scale(1)\"'>5</div>", unsafe_allow_html=True)
         st.markdown("<div style='font-size:12px; line-height:1.2; margin-bottom:15px;'>Certifications<br>Officielles</div>", unsafe_allow_html=True)
         
-        st.markdown("<div style='color:#FF7F50; font-size:35px; font-weight:bold;'>3</div>", unsafe_allow_html=True)
+        st.markdown("<div style='color:#FF7F50; font-size:35px; font-weight:bold; transition: transform 0.3s ease;' onmouseover='this.style.transform=\"scale(1.1)\"' onmouseout='this.style.transform=\"scale(1)\"'>3</div>", unsafe_allow_html=True)
         st.markdown("<div style='font-size:12px; line-height:1.2;'>Diplômes<br>Universitaires</div>", unsafe_allow_html=True)
         
     with col_chart:
-        # Ajout de textinfo='none' pour cacher les pourcentages noirs qui débordaient
         fig1 = go.Figure(data=[go.Pie(labels=['Dev', 'Data'], values=[60, 40], hole=.75, marker_colors=['#9a88cf', '#e0e0e0'], textinfo='none', hoverinfo='label')])
         fig1.update_layout(showlegend=False, margin=dict(t=0, b=0, l=0, r=0), height=80, paper_bgcolor="rgba(0,0,0,0)", annotations=[dict(text='IT', x=0.5, y=0.5, font_size=14, showarrow=False)])
         st.plotly_chart(fig1, use_container_width=True, config={'displayModeBar': False})
