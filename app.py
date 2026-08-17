@@ -8,44 +8,46 @@ from PIL import Image
 # 1. Configuration (Doit être la première ligne)
 st.set_page_config(page_title="Amani Tlili - Dashboard CV", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. Injection de CSS pour le design "Dark SlideModel"
+# 2. Injection de CSS pour votre palette de couleurs personnalisée
 st.markdown("""
 <style>
-    /* Fond général sombre (Gris anthracite/Bleu nuit) */
+    /* Fond général (Lavande clair) */
     .stApp {
-        background-color: #1A1D24;
+        background-color: #E8E7FB;
     }
     
-    /* Typographie */
+    /* Typographie - Texte sombre pour contraster avec le fond clair */
     h1, h2, h3, h4, p, span {
-        color: #E2E8F0 !important;
+        color: #333333 !important;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Couleur d'accentuation (Cyan technologique) */
+    /* Couleur d'accentuation (Corail) */
     .highlight {
-        color: #00D2FF !important;
+        color: #FF7F50 !important;
     }
 
-    /* Style de la colonne Profil (gauche) pour créer un effet "Carte" */
+    /* Style de la colonne Profil (gauche) avec le fond rose poudré */
     [data-testid="column"]:nth-child(1) {
-        background-color: #222631;
+        background-color: #FBE8F1;
         padding: 30px 20px;
         border-radius: 15px;
-        border-top: 4px solid #00D2FF;
-        box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+        border-top: 4px solid #9a88cf;
+        box-shadow: 2px 2px 15px rgba(0,0,0,0.05);
     }
 
-    /* Style des conteneurs de métriques (KPIs) */
+    /* Style des conteneurs de métriques (KPIs) - Fond blanc pour faire ressortir les chiffres */
     div[data-testid="metric-container"] {
-        background-color: #222631;
+        background-color: #ffffff;
         border-radius: 10px;
         padding: 15px;
-        border-left: 4px solid #00D2FF;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        border-left: 4px solid #FF7F50;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
     }
+    
+    /* Couleur des chiffres clés (Violet) */
     [data-testid="stMetricValue"] {
-        color: #00D2FF !important;
+        color: #9a88cf !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -69,17 +71,18 @@ df_timeline = load_data()
 col_profil, col_donnees = st.columns([1, 2.5], gap="large")
 
 # ==========================================
-# COLONNE DE GAUCHE : PROFIL (Style Sidebar)
+# COLONNE DE GAUCHE : PROFIL
 # ==========================================
 with col_profil:
-    if os.path.exists("photo_profil.png"):
-        img = Image.open("photo_profil.png")
+    # Changement pour l'extension .jpg
+    if os.path.exists("photo_profil.jpg"):
+        img = Image.open("photo_profil.jpg")
         st.image(img, use_container_width=True)
     else:
-        st.markdown("<div style='height: 150px; background-color:#1A1D24; border-radius:10px; text-align:center; line-height:150px;'>[Zone Photo]</div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 150px; background-color:#e0e0e0; border-radius:10px; text-align:center; line-height:150px;'>[Zone Photo]</div>", unsafe_allow_html=True)
     
     st.markdown("<h2 style='text-align: center; margin-bottom: 0;'>Amani <span class='highlight'>Tlili</span></h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; font-size: 1.1rem; color: #A0AAB2 !important;'>Analyste de Données / Affaires</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 1.1rem; color: #666666 !important;'>Analyste de Données / Affaires</p>", unsafe_allow_html=True)
     
     st.markdown("---")
     st.markdown("#### 📞 Contact")
@@ -110,20 +113,20 @@ with col_donnees:
     
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Ligne 2 : Les compétences (Graphique à barres horizontales style SlideModel)
+    # Ligne 2 : Les compétences
     st.markdown("### 🛠️ Expertise Technique")
     competences = ['UML & Agilité', 'Python & Pandas', 'ETL & Nettoyage', 'Power BI & Visualisation', 'Bases de données (SQL)']
     niveaux = [85, 80, 85, 95, 95]
     
     fig_bar = px.bar(
         x=niveaux, y=competences, orientation='h', 
-        color_discrete_sequence=['#00D2FF']
+        color_discrete_sequence=['#9a88cf'] # Violet pour les barres
     )
     fig_bar.update_layout(
         xaxis_title="Niveau de maîtrise (%)", yaxis_title="",
-        xaxis=dict(range=[0, 100], showgrid=True, gridcolor='#2D3342'),
+        xaxis=dict(range=[0, 100], showgrid=True, gridcolor='#e0e0e0'), # Gris clair pour la grille
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color='#E2E8F0'), height=250, margin=dict(l=0, r=0, t=0, b=0)
+        font=dict(color='#333333'), height=250, margin=dict(l=0, r=0, t=0, b=0)
     )
     st.plotly_chart(fig_bar, use_container_width=True)
 
@@ -133,13 +136,13 @@ with col_donnees:
     st.markdown("### 🗓️ Ligne du temps du parcours")
     fig_timeline = px.timeline(
         df_timeline, x_start="Début", x_end="Fin", y="Tâche", color="Catégorie",
-        color_discrete_map={"Formation": "#00D2FF", "Expérience": "#6C63FF"} 
+        color_discrete_map={"Formation": "#9a88cf", "Expérience": "#FF7F50"} # Violet et Corail
     )
     fig_timeline.update_yaxes(autorange="reversed")
     fig_timeline.update_layout(
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color='#E2E8F0'),
-        xaxis=dict(showgrid=True, gridcolor='#2D3342'),
+        font=dict(color='#333333'),
+        xaxis=dict(showgrid=True, gridcolor='#e0e0e0'), # Gris clair pour la grille
         height=300, margin=dict(l=0, r=0, t=10, b=0)
     )
     st.plotly_chart(fig_timeline, use_container_width=True)
